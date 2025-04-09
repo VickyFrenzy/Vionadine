@@ -29,6 +29,12 @@ for (const folder of commandFolders) {
 	}
 }
 
+let resource = createAudioResource(mfile);
+function loopAudio() {
+	player.play(resource);
+	resource = createAudioResource(mfile);
+}
+
 player = createAudioPlayer({
 	behaviors: {
 		noSubscriber: NoSubscriberBehavior.Play,
@@ -37,30 +43,30 @@ player = createAudioPlayer({
 player.on('error', error => {
 	console.error(error);
 });
-player.on(AudioPlayerStatus.Idle, () => {
-	player.play(createAudioResource(mfile));
-});
+player.on(AudioPlayerStatus.Idle, loopAudio);
+
+async function performAutoJoin(readyClient) {
+	if (!autojoin) { return; }
+
+	for (const channelId of autojoin.split(';')) {
+		const channel = await readyClient.channels.fetch(channelId);
+		if (channel && channel.type === 2) {
+			const connection = joinVoiceChannel({
+				channelId: channel.id,
+				guildId: channel.guild.id,
+				adapterCreator: channel.guild.voiceAdapterCreator,
+			});
+			connection.subscribe(player);
+		}
+	}
+}
 
 client.once(Events.ClientReady, async readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 
-	// TODO: rewrite this in a separate function
-	if (autojoin) {
-		for (const channelId of autojoin.split(';')) {
-			const channel = await readyClient.channels.fetch(channelId);
-			if (channel && channel.type === 2) {
-				const connection = joinVoiceChannel({
-					channelId: channel.id,
-					guildId: channel.guild.id,
-					adapterCreator: channel.guild.voiceAdapterCreator,
-				});
-				connection.subscribe(player);
-			}
-		}
-	}
+	await performAutoJoin(readyClient);
 
-	const resource = createAudioResource(mfile);
-	player.play(resource);
+	loopAudio();
 });
 
 client.on(Events.InteractionCreate, async interaction => {
