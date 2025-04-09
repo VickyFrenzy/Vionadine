@@ -1,0 +1,30 @@
+{
+  "name": "vionadine",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VickyFrenzy/Vionadine.git"
+  },
+  "author": "VickyFrenzy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VickyFrenzy/Vionadine/issues"
+  },
+  "homepage": "https://github.com/VickyFrenzy/Vionadine#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.10.0",
+    "@discordjs/voice": "^0.18.0",
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7",
+    "libsodium-wrappers": "^0.7.15"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "eslint": "^9.24.0"
+  }
+}
