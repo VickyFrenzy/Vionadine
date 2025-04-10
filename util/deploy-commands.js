@@ -4,12 +4,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const token = process.env.DISCORD_TOKEN;
-const clientId = process.argv[2];
-const guildId = process.argv[3];
 
 const commands = [];
 // Grab all the command folders from the commands directory you created earlier
-const foldersPath = path.join(__dirname, 'commands');
+const foldersPath = path.join(__dirname, '../commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
@@ -21,8 +19,6 @@ for (const folder of commandFolders) {
 		const filePath = path.join(commandsPath, file);
 		const command = require(filePath);
 		if ('data' in command && 'execute' in command) {
-			console.log(command.data);
-			console.log(command.data.toJSON());
 			commands.push(command.data.toJSON());
 		}
 		else {
@@ -34,21 +30,21 @@ for (const folder of commandFolders) {
 // Construct and prepare an instance of the REST module
 const rest = new REST().setToken(token);
 
-// and deploy your commands!
-(async () => {
-	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+module.exports = {
+	async deployCommands(clientId) {
+		try {
+			console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-		// The put method is used to fully refresh all commands in the guild with the current set
-		const data = await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
-			{ body: commands },
-		);
+			// The put method is used to fully refresh all commands in the guild with the current set
+			const data = await rest.put(
+				Routes.applicationCommands(clientId),
+				{ body: commands },
+			);
 
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-	}
-	catch (error) {
-		// And of course, make sure you catch and log any errors!
-		console.error(error);
-	}
-})();
+			console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+		}
+		catch (error) {
+			console.error(error);
+		}
+	},
+};

@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, MessageFlags } = require('discord.js');
 const { createAudioPlayer, createAudioResource, joinVoiceChannel, NoSubscriberBehavior, AudioPlayerStatus } = require('@discordjs/voice');
+const { deployCommands } = require('./util/deploy-commands.js');
 
 const token = process.env.DISCORD_TOKEN;
 const autojoin = process.env.AUTO_JOIN;
@@ -63,6 +64,8 @@ async function performAutoJoin(readyClient) {
 
 client.once(Events.ClientReady, async readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+
+	await deployCommands(readyClient.user.id);
 
 	await performAutoJoin(readyClient);
 
