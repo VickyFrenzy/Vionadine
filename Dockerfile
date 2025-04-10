@@ -8,6 +8,7 @@ WORKDIR /vionadine
 
 COPY package.json index.js ./
 COPY commands commands
+COPY util util
 
 ARG NODE_ENV=production
 
