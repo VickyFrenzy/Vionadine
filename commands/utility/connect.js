@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageFlags, InteractionContextType, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags, InteractionContextType, PermissionFlagsBits, ChannelType } = require('discord.js');
 const { joinVoiceChannel } = require('@discordjs/voice');
 
 module.exports = {
@@ -7,13 +7,14 @@ module.exports = {
 		.setDescription('Connect the bot to a voice channel')
 		.addChannelOption(option =>
 			option.setName('channel')
-				.setDescription('Channel to connect to'))
+				.setDescription('Channel to connect to')
+				.addChannelTypes(ChannelType.GuildVoice))
 		.setContexts(InteractionContextType.Guild)
 		.setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
 	async execute(interaction) {
 		const channel = interaction.options.getChannel('channel') || interaction.member.voice.channel;
 
-		if (!channel || channel.type !== 2) {
+		if (!channel || channel.type !== ChannelType.GuildVoice) {
 			await interaction.reply({ content: 'Please provide a valid channel.', flags: MessageFlags.Ephemeral });
 			return;
 		}
