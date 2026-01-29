@@ -4,7 +4,7 @@ FROM --platform=$BUILDPLATFORM node:${NODE_VERSION}
 
 RUN apk add ffmpeg
 
-WORKDIR /vionadine
+WORKDIR /another-discord-bot
 
 COPY package.json index.js ./
 COPY commands commands

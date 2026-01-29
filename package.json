@@ -1,5 +1,5 @@
 {
-  "name": "vionadine",
+  "name": "another-discord-bot",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VickyFrenzy/Vionadine.git"
+    "url": "git+https://github.com/VickyFrenzy/another-discord-bot.git"
   },
   "author": "VickyFrenzy",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/VickyFrenzy/Vionadine/issues"
+    "url": "https://github.com/VickyFrenzy/another-discord-bot/issues"
   },
-  "homepage": "https://github.com/VickyFrenzy/Vionadine#readme",
+  "homepage": "https://github.com/VickyFrenzy/another-discord-bot#readme",
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
     "@discordjs/voice": "^0.18.0",
